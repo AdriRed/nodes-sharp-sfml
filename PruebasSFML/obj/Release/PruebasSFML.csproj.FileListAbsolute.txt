@@ -1,0 +1,15 @@
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Release\PruebasSFML.exe.config
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Release\PruebasSFML.exe
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Release\PruebasSFML.pdb
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Release\SFML.Audio.dll
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Release\SFML.Graphics.dll
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Release\SFML.System.dll
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Release\SFML.Window.dll
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Release\SFML.Audio.xml
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Release\SFML.Graphics.xml
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Release\SFML.System.xml
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Release\SFML.Window.xml
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\obj\Release\PruebasSFML.csproj.CoreCompileInputs.cache
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\obj\Release\PruebasSFML.csproj.CopyComplete
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\obj\Release\PruebasSFML.exe
+D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\obj\Release\PruebasSFML.pdb
