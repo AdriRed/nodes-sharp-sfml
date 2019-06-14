@@ -13,6 +13,15 @@ namespace PruebasSFML.Game.Back
         public readonly float factor = 0.01f;
         private float limits = 20f;
         private Vector2u WindowSize;
+        private float frictionFactor = 0.6f;
+
+        public float Mass
+        {
+            get
+            {
+                return Shape.Scale.X;
+            }
+        }
 
         public Vector2f ActualPosition, Acceleration, Velocity;
         public Shape Shape { get; private set; }
@@ -54,7 +63,13 @@ namespace PruebasSFML.Game.Back
         public void Update(Random rd)
         {
             CheckBoundaries();
+            //AddFriction();
             UpdateVelocity(rd);
+        }
+
+        private void AddFriction()
+        {
+            Acceleration += -Vector2fLibrary.Normalize(Velocity) * factor * Mass;
         }
 
         private void CheckBoundaries()
@@ -69,8 +84,8 @@ namespace PruebasSFML.Game.Back
         {
             //Acceleration += new Vector2f((float)(rd.NextDouble() * 2 - 1), (float)(rd.NextDouble() * 2 - 1)) * factor;
             Velocity += Acceleration;
-            float magnitude = (float)Math.Sqrt(Math.Pow(Velocity.X, 2) + Math.Pow(Velocity.Y, 2));
-            Velocity = new Vector2f(Velocity.X / magnitude, Velocity.Y / magnitude) * factor;
+            //float magnitude = (float)Math.Sqrt(Math.Pow(Velocity.X, 2) + Math.Pow(Velocity.Y, 2));
+            //Velocity = new Vector2f(Velocity.X / magnitude, Velocity.Y / magnitude) * factor;
             Shape.Position += Velocity;
         }
     }

@@ -117,7 +117,7 @@ namespace PruebasSFML.Game
                 }
 
 
-                item.Update(rd, acceleration);
+                item.Update(rd, new Vector2f(0,0));
             }
         }
 
