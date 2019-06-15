@@ -66,9 +66,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Nodes\Back\Connections.cs" />
-    <Compile Include="Nodes\Back\Node.cs" />
+    <Compile Include="Nodes\Libraries\FileNodes.cs" />
+    <Compile Include="Nodes\Libraries\Connections.cs" />
+    <Compile Include="Nodes\Libraries\Node.cs" />
     <Compile Include="Nodes\NodeViewer.cs" />
+    <Compile Include="Nodes\Pkmn\Clases\Pokemon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Nodes\Vector2fLibrary.cs" />
     <Compile Include="System\DebugUtility.cs" />

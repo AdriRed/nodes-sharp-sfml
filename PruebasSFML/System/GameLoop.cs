@@ -37,7 +37,8 @@ namespace PruebasSFML.System
             Window.Closed += Window_Closed;
         }
 
-        private void Window_Closed(object sender, EventArgs e)
+
+        protected void Window_Closed(object sender, EventArgs e)
         {
             Window.Close();
         }

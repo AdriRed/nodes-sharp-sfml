@@ -6,18 +6,25 @@ using SFML.System;
 using SFML.Graphics;
 using PruebasSFML.System;
 
-namespace PruebasSFML.Game.Back
+namespace PruebasSFML.Nodes.Libraries
 {
-    public class Node
+    public class Node : IEquatable<Node>
     {
         public static uint count;
         public readonly float factor = 0.01f;
         private float worldLimits = 10f;
         private Vector2u WindowSize;
-        private float frictionFactor = 0.09f;
+        private float frictionFactor = 0.1f;
         private GameTime time;
+        private float MaxVelocity = 4f;
 
-
+        public float Radii
+        {
+            get
+            {
+                return Mass;
+            }
+        }
         public float Mass
         {
             get
@@ -26,23 +33,23 @@ namespace PruebasSFML.Game.Back
             }
         }
 
-        public Vector2f ActualPosition, Acceleration, Velocity;
+        public Vector2f Acceleration, Velocity;
         public Shape Shape { get; private set; }
         public List<Node> Neighbours { get; private set; }
-        public int Identificator { get; private set; }
+        public int Id { get; private set; }
 
         static Node()
         {
             count = 0;
         }
 
-        public Node(Shape shape, Vector2f position, int id, Vector2u size, GameTime time)
+        public Node(Shape shape, Vector2f position, int id, Vector2u windowsize, GameTime time)
         {
             Shape = shape;
             Shape.Position = position;
             Neighbours = new List<Node>();
-            Identificator = id;
-            WindowSize = size;
+            Id = id;
+            WindowSize = windowsize;
             this.time = time;
             /*
             _minwidth = limits[0].Item1;
@@ -81,15 +88,47 @@ namespace PruebasSFML.Game.Back
         private void UpdatePosition()
         {
             Velocity += Acceleration * time.DeltaTime;
+
+            if (Vector2fLibrary.GetMagnitude(Velocity * time.DeltaTime) > MaxVelocity)
+            {
+                Velocity = Vector2fLibrary.SetMagnitude(Velocity, MaxVelocity / time.DeltaTime);
+            }
+
             Shape.Position += Velocity * time.DeltaTime;
         }
 
         private void CheckBoundaries()
         {
-            if (Shape.Position.X < worldLimits) Shape.Position = new Vector2f(worldLimits, Shape.Position.Y);
-            if (Shape.Position.X > WindowSize.X - worldLimits) Shape.Position = new Vector2f(WindowSize.X - worldLimits, Shape.Position.Y);
-            if (Shape.Position.Y < worldLimits) Shape.Position = new Vector2f(Shape.Position.X, worldLimits);
-            if (Shape.Position.Y > WindowSize.Y - worldLimits) Shape.Position = new Vector2f(Shape.Position.X, WindowSize.Y - worldLimits);
+            if (Shape.Position.X < worldLimits) Shape.Position                = new Vector2f(                worldLimits,           Shape.Position.Y);
+            if (Shape.Position.X > WindowSize.X - worldLimits) Shape.Position = new Vector2f( WindowSize.X - worldLimits,           Shape.Position.Y);
+            if (Shape.Position.Y < worldLimits) Shape.Position                = new Vector2f(           Shape.Position.X,                worldLimits);
+            if (Shape.Position.Y > WindowSize.Y - worldLimits) Shape.Position = new Vector2f(           Shape.Position.X, WindowSize.Y - worldLimits);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Node);
+        }
+
+        public bool Equals(Node other)
+        {
+            return other != null &&
+                   Id == other.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
+        }
+
+        public static bool operator ==(Node left, Node right)
+        {
+            return EqualityComparer<Node>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(Node left, Node right)
+        {
+            return !(left == right);
         }
     }
 }

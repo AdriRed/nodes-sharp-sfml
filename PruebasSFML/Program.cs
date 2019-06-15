@@ -3,7 +3,7 @@ using SFML.Audio;
 using SFML.Window;
 using SFML.System;
 using SFML.Graphics;
-using PruebasSFML.Game;
+using PruebasSFML.Nodes;
 
 namespace PruebasSFML
 {

@@ -5,13 +5,13 @@ using SFML.Window;
 using SFML.System;
 using PruebasSFML.System;
 
-namespace PruebasSFML.Game
+namespace PruebasSFML.Nodes
 {
     public static class DebugUtility
     {
         public const string FontPath = @"D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Debug\fonts\Roboto-Regular.ttf";
         public const uint FontSize = 14;
-        public static Color FontColor = Color.Black;
+        public static Color FontColor = new Color(10, 10, 10, 200);
         public static Font Font;
 
         public static void LoadContent()
@@ -39,9 +39,19 @@ namespace PruebasSFML.Game
                 fps_lbl.Position = new Vector2f(4, 48);
                 fps_lbl.FillColor = FontColor;
 
+                Text mouseX = new Text(Mouse.GetPosition().X.ToString(), Font, FontSize);
+                mouseX.Position = new Vector2f(4, 68);
+                mouseX.FillColor = FontColor;
+
+                Text mouseY = new Text(Mouse.GetPosition().Y.ToString(), Font, FontSize);
+                mouseY.Position = new Vector2f(4, 88);
+                mouseY.FillColor = FontColor;
+
                 gameLoop.Window.Draw(timeElapsed_lbl);
                 gameLoop.Window.Draw(deltaTime_lbl);
                 gameLoop.Window.Draw(fps_lbl);
+                gameLoop.Window.Draw(mouseX);
+                gameLoop.Window.Draw(mouseY);
             }
         }
 

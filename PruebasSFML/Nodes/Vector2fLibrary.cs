@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PruebasSFML.Game
+namespace PruebasSFML.Nodes
 {
     static class Vector2fLibrary
     {

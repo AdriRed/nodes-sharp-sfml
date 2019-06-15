@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PruebasSFML.Game.Back
+namespace PruebasSFML.Nodes.Libraries
 {
     class Connection : IEquatable<Connection>
     {
-        private int _identification;
+        public int Id { get; private set; }
         public Node First { get; set; }
         public Node Second { get; set; }
 
@@ -16,9 +16,9 @@ namespace PruebasSFML.Game.Back
         {
             First = first;
             Second = second;
-            _identification = (first.Identificator > second.Identificator) ?
-                Int32.Parse(first.Identificator.ToString() + second.Identificator.ToString()) :
-                Int32.Parse(second.Identificator.ToString() + 0.ToString() + first.Identificator.ToString());
+            Id = (first.Id > second.Id) ?
+                Int32.Parse(first.Id.ToString() + 0.ToString() + second.Id.ToString()) :
+                Int32.Parse(second.Id.ToString() + 0.ToString() + first.Id.ToString());
         }
 
         public override bool Equals(object obj)
@@ -38,7 +38,7 @@ namespace PruebasSFML.Game.Back
 
         public override int GetHashCode()
         {
-            return _identification;
+            return Id;
         }
 
         public static bool operator ==(Connection left, Connection right)
