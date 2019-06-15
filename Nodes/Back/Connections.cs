@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Audio;
-using SFML.Window;
-using SFML.System;
-using SFML.Graphics;
 
-namespace PruebasSFML.Game.Back
+namespace Nodes.Back
 {
     class Connection : IEquatable<Connection>
     {

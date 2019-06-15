@@ -11,7 +11,7 @@ namespace PruebasSFML
     {
         public static void Main(string[] args)
         {
-            NodeViewer g = new NodeViewer(1000, 800, "nodes", new Color(237, 242, 244));
+            NodeViewer g = new NodeViewer(600, 600, "nodes", new Color(237, 242, 244));
             g.Run();
         }
     } 

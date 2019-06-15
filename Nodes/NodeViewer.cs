@@ -7,7 +7,7 @@ using SFML.Graphics;
 using PruebasSFML.System;
 using PruebasSFML.Game.Back;
 
-namespace PruebasSFML.Game
+namespace Nodes
 {
     public class NodeViewer : GameLoop
     {
@@ -55,7 +55,7 @@ namespace PruebasSFML.Game
                 nodeshape.OutlineColor = OutlineColor;
                 nodeshape.OutlineThickness = OutlineThickness;
 
-                Nodes.Add(new Node(nodeshape, new Vector2f(x, y), i, Window.Size));
+                Nodes.Add(new Node(nodeshape, new Vector2f(x, y), i, Window.Size, GameTime));
             }
 
             foreach (Node target in Nodes)
@@ -101,8 +101,8 @@ namespace PruebasSFML.Game
             foreach (Node item in Nodes)
             {
                 Vector2f acceleration = new Vector2f(0, 0);
-
-                foreach (Node target in Nodes)
+                
+                foreach (Node target in item.Neighbours)
                 {
                     if (target != item)
                     {
@@ -110,14 +110,14 @@ namespace PruebasSFML.Game
                         float distance = (float)Vector2fLibrary.SqDist(new Vector2f(0, 0), localAcceleration);
                         localAcceleration = Vector2fLibrary.Normalize(localAcceleration);
 
-                        float strength = (AttractionConst * target.Shape.Scale.X * item.Shape.Scale.X) / (distance * distance);
+                        float strength = (AttractionConst * target.Shape.Scale.X * item.Shape.Scale.X) / distance;
 
                         acceleration += localAcceleration * strength;
                     }
                 }
 
 
-                item.Update(rd, new Vector2f(0,0));
+                item.Update(rd, acceleration);
             }
         }
 
@@ -138,7 +138,7 @@ namespace PruebasSFML.Game
             foreach (Node item in Nodes)
             {
                 Window.Draw(item.Shape);
-                //Text txt = new Text(item.Velocity.X + ", " + item.Velocity.Y, DebugUtility.Font, 6);
+                //Text txt = new Text( Vector2fLibrary.GetMagnitude(item.Velocity).ToString("0.000") , DebugUtility.Font, 8);
                 //txt.Color = Color.Black;
                 //txt.Position = item.Shape.Position;
                 //Window.Draw(txt);

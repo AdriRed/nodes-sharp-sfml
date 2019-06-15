@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using SFML.Audio;
-using SFML.Window;
-using SFML.System;
-using SFML.Graphics;
+using PruebasSFML.System;
 
-namespace PruebasSFML.Game.Back
+namespace Nodes.Back
 {
     public class Node
     {
         public static uint count;
         public readonly float factor = 0.01f;
-        private float limits = 20f;
+        private float worldLimits = 75f;
         private Vector2u WindowSize;
         private float frictionFactor = 0.6f;
+        private GameTime time;
+        private float velocityLimit = 20f;
+
 
         public float Mass
         {
@@ -33,13 +33,14 @@ namespace PruebasSFML.Game.Back
             count = 0;
         }
 
-        public Node(Shape shape, Vector2f position, int id, Vector2u size)
+        public Node(Shape shape, Vector2f position, int id, Vector2u size, GameTime time)
         {
             Shape = shape;
             Shape.Position = position;
             Neighbours = new List<Node>();
             Identificator = id;
             WindowSize = size;
+            this.time = time;
             /*
             _minwidth = limits[0].Item1;
             _maxwidth = limits[0].Item2;
@@ -62,31 +63,41 @@ namespace PruebasSFML.Game.Back
 
         public void Update(Random rd)
         {
-            CheckBoundaries();
+            //CheckBoundaries();
             //AddFriction();
             UpdateVelocity(rd);
+            
         }
 
         private void AddFriction()
         {
-            Acceleration += -Vector2fLibrary.Normalize(Velocity) * factor * Mass;
+            Vector2f direction = Vector2fLibrary.Normalize(Velocity);
+
+            Acceleration += -direction * Mass;
         }
 
         private void CheckBoundaries()
         {
-            if (Shape.Position.X < limits) Acceleration.X += limits - Shape.Position.X;
-            if (Shape.Position.X > WindowSize.X - limits) Acceleration.X += WindowSize.X - limits - Shape.Position.X;
-            if (Shape.Position.Y < limits) Acceleration.Y += limits - Shape.Position.Y;
-            if (Shape.Position.Y > WindowSize.X - limits) Acceleration.Y += WindowSize.X - limits - Shape.Position.Y;
+            if (Shape.Position.X < worldLimits) Acceleration.X += worldLimits - Shape.Position.X;
+            if (Shape.Position.X > WindowSize.X - worldLimits) Acceleration.X += WindowSize.X - worldLimits - Shape.Position.X;
+            if (Shape.Position.Y < worldLimits) Acceleration.Y += worldLimits - Shape.Position.Y;
+            if (Shape.Position.Y > WindowSize.X - worldLimits) Acceleration.Y += WindowSize.X - worldLimits - Shape.Position.Y;
         }
 
         private void UpdateVelocity(Random rd)
         {
-            //Acceleration += new Vector2f((float)(rd.NextDouble() * 2 - 1), (float)(rd.NextDouble() * 2 - 1)) * factor;
-            Velocity += Acceleration;
-            //float magnitude = (float)Math.Sqrt(Math.Pow(Velocity.X, 2) + Math.Pow(Velocity.Y, 2));
-            //Velocity = new Vector2f(Velocity.X / magnitude, Velocity.Y / magnitude) * factor;
-            Shape.Position += Velocity;
+            //Acceleration += new Vector2f((float)(rd.NextDouble() * 2 - 1), (float)(rd.NextDouble() * 2 - 1));
+
+            Velocity += Acceleration /** time.DeltaTime*/;
+
+            double magnitude = Vector2fLibrary.GetMagnitude(Velocity);
+
+            if (magnitude > velocityLimit)
+            {
+                Velocity = Vector2fLibrary.SetMagnitude(Velocity, velocityLimit);
+            }
+
+            Shape.Position += Velocity * time.DeltaTime;
         }
     }
 }

@@ -9,8 +9,9 @@ namespace PruebasSFML.Game
 {
     public static class DebugUtility
     {
-        public const string FontPath = "./fonts/moon_get-Heavy.ttf";
+        public const string FontPath = @"D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Debug\fonts\Roboto-Regular.ttf";
         public const uint FontSize = 14;
+        public static Color FontColor = Color.Black;
         public static Font Font;
 
         public static void LoadContent()
@@ -18,7 +19,7 @@ namespace PruebasSFML.Game
             Font = new Font(FontPath);
         }
 
-        public static void DrawPerformanceData(GameLoop gameLoop, Color fontColor)
+        public static void DrawPerformanceData(GameLoop gameLoop)
         {
             if (Font != null)
             {
@@ -28,15 +29,15 @@ namespace PruebasSFML.Game
 
                 Text timeElapsed_lbl = new Text(timeElapsed, Font, FontSize);
                 timeElapsed_lbl.Position = new Vector2f(4, 8);
-                timeElapsed_lbl.Color = fontColor;
+                timeElapsed_lbl.FillColor = FontColor;
 
                 Text deltaTime_lbl = new Text(deltaTime, Font, FontSize);
                 deltaTime_lbl.Position = new Vector2f(4, 28);
-                deltaTime_lbl.Color = fontColor;
+                deltaTime_lbl.FillColor = FontColor;
 
                 Text fps_lbl = new Text(fps, Font, FontSize);
                 fps_lbl.Position = new Vector2f(4, 48);
-                fps_lbl.Color = fontColor;
+                fps_lbl.FillColor = FontColor;
 
                 gameLoop.Window.Draw(timeElapsed_lbl);
                 gameLoop.Window.Draw(deltaTime_lbl);

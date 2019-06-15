@@ -66,14 +66,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game\Back\Connections.cs" />
-    <Compile Include="Game\Back\Node.cs" />
-    <Compile Include="Game\DebugUtility.cs" />
-    <Compile Include="Game\Vector2fLibrary.cs" />
+    <Compile Include="Nodes\Back\Connections.cs" />
+    <Compile Include="Nodes\Back\Node.cs" />
+    <Compile Include="Nodes\NodeViewer.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Nodes\Vector2fLibrary.cs" />
+    <Compile Include="System\DebugUtility.cs" />
     <Compile Include="System\GameLoop.cs" />
     <Compile Include="System\GameTime.cs" />
-    <Compile Include="Game\NodeViewer.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
