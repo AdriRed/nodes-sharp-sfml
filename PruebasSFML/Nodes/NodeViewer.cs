@@ -13,7 +13,6 @@ namespace PruebasSFML.Nodes
     {
         List<Node> Nodes;
         List<Connection> Connections;
-        FileNodes fn;
         public static Color OutlineColor = new Color(237, 242, 244), 
                             ConnectionColor = new Color(159, 162, 178, 75);
 
@@ -21,13 +20,13 @@ namespace PruebasSFML.Nodes
         private int NodesCount = 50;
         private const float MinSize = 3, MaxSize = 6;
 
-        private const float ConnectionForceConst = 2f;
-        private const float ConnectionDefaultLength = 20f;
-        private const float RepulsionConst = 50f;
+        private const float ConnectionForceConst = 0.01f;
+        private const float ConnectionDefaultLength = 15f;
+        private const float RepulsionConst = 70f;
 
         private const uint MinNeighbours = 0, MaxNeighbours = 15;
 
-        private const float DefaultRadii = 0.75f;
+        private const float DefaultRadii = 3f;
 
         Random rd;
 
@@ -43,30 +42,29 @@ namespace PruebasSFML.Nodes
             Nodes = new List<Node>();
             rd = new Random();
             Connections = new List<Connection>();
-            fn = new FileNodes(@"D:\Users\Adri\Downloads\power-494-bus\power-494-bus.mtx", ' ');
+            
         }
 
         public override void Initialize()
         {
             //InitializeRandomPositionNodes();
+            //SetRandomNeighbours();
             //SetConnections();
-
+            //SetAllVisuals();
+            FileNodes fn = new FileNodes(@"D:\Users\Adri\Downloads\custom-networks\random-network1.edges", ' ');
             NodesCount = fn.greaterNode + 1;
-            InitializeNodes();
-        }
-
-        private void InitializeNodes()
-        {
             InitializeRandomPositionNodes();
-            SetConnectionsFromFile();
+            SetConnectionsFromFile(fn);
             SetAllVisuals();
         }
 
-        private void SetConnectionsFromFile()
+        private void SetConnectionsFromFile(FileNodes fn)
         {
             foreach (Tuple<int, int> item in fn.Connections)
             {
                 Connections.Add(new Connection(Nodes[item.Item1], Nodes[item.Item2]));
+                Nodes[item.Item1].AddNeighbour(Nodes[item.Item2]);
+                Nodes[item.Item2].AddNeighbour(Nodes[item.Item1]);
             }
         }
 
@@ -185,28 +183,22 @@ namespace PruebasSFML.Nodes
         {
             foreach (Node target in Nodes)
             {
-                if (target.Id == 0 || target.Id == Nodes.Count - 1)
+                if (target.Id != 0 && target.Id != Nodes.Count - 1)
+                {
+                    target.AddNeighbour(Nodes[target.Id - 1]);
+                    target.AddNeighbour(Nodes[target.Id + 1]);
+                } else
                 {
                     if (target.Id == 0)
                     {
-                        for (int i = 1; i < Nodes.Count / 2; i++)
-                        {
-                            target.AddNeighbour(Nodes[i]);
-                        }
+                        target.AddNeighbour(Nodes[1]);
                         target.AddNeighbour(Nodes[Nodes.Count - 1]);
                     } else
                     {
-                        for (int i = Nodes.Count - 2; i >= Nodes.Count / 2; i--)
-                        {
-                            target.AddNeighbour(Nodes[i]);
-                        }
+                        target.AddNeighbour(Nodes[Nodes.Count - 2]);
                         target.AddNeighbour(Nodes[0]);
                     }
-
-
                 }
-                
-                
                 //int neighbours = rd.Next((int)MinNeighbours, (int)(MaxNeighbours - target.Neighbours.Count));
 
                 //for (int j = 0; j < neighbours; j++)
