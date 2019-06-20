@@ -14,7 +14,7 @@ namespace PruebasSFML.Nodes.Libraries
         public readonly float factor = 0.01f;
         private float worldLimits = 10f;
         private Vector2u WindowSize;
-        private float frictionFactor = 0.1f;
+        private float frictionFactor = 0.07f;
         private GameTime time;
         private float MaxVelocity = 4f;
 

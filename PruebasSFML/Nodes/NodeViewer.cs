@@ -14,19 +14,19 @@ namespace PruebasSFML.Nodes
         List<Node> Nodes;
         List<Connection> Connections;
         public static Color OutlineColor = new Color(237, 242, 244), 
-                            ConnectionColor = new Color(159, 162, 178, 75);
+                            ConnectionColor = new Color(0, 0, 0, 50);
 
         private const float OutlineThickness = 0.5f;
-        private int NodesCount = 50;
-        private const float MinSize = 3, MaxSize = 6;
+        private int NodesCount = 15;
 
         private const float ConnectionForceConst = 0.01f;
-        private const float ConnectionDefaultLength = 15f;
-        private const float RepulsionConst = 70f;
+        private const float ConnectionDefaultLength = 30f;
+        private const float RepulsionConst = 30f;
 
-        private const uint MinNeighbours = 0, MaxNeighbours = 15;
+        private const uint MinNeighbours = 1, MaxNeighbours = 8;
+        private const bool blakLines = true;
 
-        private const float DefaultRadii = 3f;
+        private const float MinRadii = 2f, MaxRadii = 10f;
 
         Random rd;
 
@@ -51,7 +51,8 @@ namespace PruebasSFML.Nodes
             //SetRandomNeighbours();
             //SetConnections();
             //SetAllVisuals();
-            FileNodes fn = new FileNodes(@"D:\Users\Adri\Downloads\custom-networks\random-network1.edges", ' ');
+
+            FileNodes fn = new FileNodes(@"C:\Users\arojo\Downloads\custom-networks\flower-network.edges", ' ');
             NodesCount = fn.greaterNode + 1;
             InitializeRandomPositionNodes();
             SetConnectionsFromFile(fn);
@@ -139,19 +140,24 @@ namespace PruebasSFML.Nodes
             foreach (Connection item in Connections)
             {
                 line = new Vertex[2];
-
-                line[0] = new Vertex(item.First.Shape.Position, new Color(0, 0, 0, 100));
-                line[1] = new Vertex(item.Second.Shape.Position, new Color(0, 0, 0, 100));
-
+                if (blakLines)
+                {
+                    line[0] = new Vertex(item.First.Shape.Position, ConnectionColor);
+                    line[1] = new Vertex(item.Second.Shape.Position, ConnectionColor);
+                } else
+                {
+                    line[0] = new Vertex(item.First.Shape.Position, item.First.Shape.FillColor);
+                    line[1] = new Vertex(item.Second.Shape.Position, item.First.Shape.FillColor);
+                }
                 Window.Draw(line, PrimitiveType.Lines);
 
-                /*Vector2f halfWay = (item.Second.Shape.Position - item.First.Shape.Position) / 2 + item.First.Shape.Position;
+                Vector2f halfWay = (item.Second.Shape.Position - item.First.Shape.Position) / 2 + item.First.Shape.Position;
 
                 Text txt = new Text(item.GetHashCode().ToString(), DebugUtility.Font, 10);
                 txt.Position = halfWay;
                 txt.Color = DebugUtility.FontColor;
 
-                Window.Draw(txt);*/
+                Window.Draw(txt);
             }
         }
 
@@ -170,8 +176,8 @@ namespace PruebasSFML.Nodes
                 int x = rd.Next((int)Math.Ceiling(10f), (int)Math.Floor(Window.Size.X - 10f));
                 int y = rd.Next((int)Math.Ceiling(10f), (int)Math.Floor(Window.Size.Y - 10f));
 
-                Shape nodeshape = new CircleShape(DefaultRadii);
-                nodeshape.Origin = new Vector2f(DefaultRadii, DefaultRadii);
+                Shape nodeshape = new CircleShape(MinRadii);
+                nodeshape.Origin = new Vector2f(MinRadii, MinRadii);
                 nodeshape.OutlineColor = OutlineColor;
                 nodeshape.OutlineThickness = OutlineThickness;
 
@@ -183,35 +189,35 @@ namespace PruebasSFML.Nodes
         {
             foreach (Node target in Nodes)
             {
-                if (target.Id != 0 && target.Id != Nodes.Count - 1)
-                {
-                    target.AddNeighbour(Nodes[target.Id - 1]);
-                    target.AddNeighbour(Nodes[target.Id + 1]);
-                } else
-                {
-                    if (target.Id == 0)
-                    {
-                        target.AddNeighbour(Nodes[1]);
-                        target.AddNeighbour(Nodes[Nodes.Count - 1]);
-                    } else
-                    {
-                        target.AddNeighbour(Nodes[Nodes.Count - 2]);
-                        target.AddNeighbour(Nodes[0]);
-                    }
-                }
-                //int neighbours = rd.Next((int)MinNeighbours, (int)(MaxNeighbours - target.Neighbours.Count));
-
-                //for (int j = 0; j < neighbours; j++)
+                //if (target.Id != 0 && target.Id != Nodes.Count - 1)
                 //{
-                //    Node selectedNode;
-                //    selectedNode = Nodes[rd.Next(Nodes.Count)];
-
-                //    if (selectedNode != target && !target.Neighbours.Contains(selectedNode))
+                //    target.AddNeighbour(Nodes[target.Id - 1]);
+                //    target.AddNeighbour(Nodes[target.Id + 1]);
+                //} else
+                //{
+                //    if (target.Id == 0)
                 //    {
-                //        target.AddNeighbour(selectedNode);
-                //        selectedNode.AddNeighbour(target);
+                //        target.AddNeighbour(Nodes[1]);
+                //        target.AddNeighbour(Nodes[Nodes.Count - 1]);
+                //    } else
+                //    {
+                //        target.AddNeighbour(Nodes[Nodes.Count - 2]);
+                //        target.AddNeighbour(Nodes[0]);
                 //    }
                 //}
+                int neighbours = rd.Next((int)MinNeighbours, (int)(MaxNeighbours - target.Neighbours.Count));
+
+                for (int j = 0; j < neighbours; j++)
+                {
+                    Node selectedNode;
+                    selectedNode = Nodes[rd.Next(Nodes.Count)];
+
+                    if (selectedNode != target && !target.Neighbours.Contains(selectedNode))
+                    {
+                        target.AddNeighbour(selectedNode);
+                        selectedNode.AddNeighbour(target);
+                    }
+                }
             }
         }
 
@@ -240,7 +246,9 @@ namespace PruebasSFML.Nodes
 
         private void SetSize(Node target, float rank)
         {
-            target.Shape.Scale = new Vector2f((1 + rank) * DefaultRadii, (1 + rank) * DefaultRadii);
+            float diference = MaxRadii - MinRadii;
+            float size = MinRadii + rank * diference;
+            target.Shape.Scale = new Vector2f(size, size);
         }
 
         private void SetColor(Node target, float rank)

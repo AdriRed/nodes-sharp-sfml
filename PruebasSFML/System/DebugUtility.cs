@@ -9,7 +9,7 @@ namespace PruebasSFML.Nodes
 {
     public static class DebugUtility
     {
-        public const string FontPath = @"D:\Users\Adri\Documents\Visual Studio Projects\PruebasSFML\PruebasSFML\bin\Debug\fonts\Roboto-Regular.ttf";
+        public const string FontPath = @"C:\Users\arojo\Desktop\GITS\nodes-sharp-sfml\PruebasSFML\bin\Debug\fonts\Roboto-Regular.ttf";
         public const uint FontSize = 14;
         public static Color FontColor = new Color(10, 10, 10, 200);
         public static Font Font;
